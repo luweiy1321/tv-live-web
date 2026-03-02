@@ -48,6 +48,13 @@ video { width:100%; height:100%; }
 <button class="cat" id="btn-cctv" onclick="selectCat('cctv')">央视</button>
 <button class="cat" id="btn-weishi" onclick="selectCat('weishi')">卫视</button>
 </div>
+<div class="cat-label">类型</div>
+<div class="cats">
+<button class="cat" id="btn-news" onclick="selectCat('news')">新闻</button>
+<button class="cat" id="btn-sports" onclick="selectCat('sports')">体育</button>
+<button class="cat" id="btn-movie" onclick="selectCat('movie')">电影</button>
+<button class="cat" id="btn-ent" onclick="selectCat('ent')">综艺</button>
+</div>
 <div class="cat-label">港澳台</div>
 <div class="cats">
 <button class="cat" id="btn-hk" onclick="selectCat('hk')">香港</button>
@@ -75,8 +82,12 @@ var filters = {
 'all': function(c) { return true; },
 'cctv': function(c) { return c.n.indexOf('CCTV') > -1; },
 'weishi': function(c) { return c.n.indexOf('卫视') > -1; },
-'hk': function(c) { return c.n.indexOf('TVB') > -1 || c.n.indexOf('凤凰') > -1; },
-'tw': function(c) { return c.n.indexOf('台湾') > -1 || c.n.indexOf('中天') > -1; }
+'hk': function(c) { return c.n.indexOf('TVB') > -1 || c.n.indexOf('凤凰') > -1 || c.n.indexOf('香港') > -1; },
+'tw': function(c) { return c.n.indexOf('台湾') > -1 || c.n.indexOf('中天') > -1; },
+'news': function(c) { return c.n.indexOf('新闻') > -1 || c.n.indexOf('资讯') > -1; },
+'sports': function(c) { return c.n.indexOf('体育') > -1 || c.n.indexOf('足球') > -1 || c.n.indexOf('NBA') > -1; },
+'movie': function(c) { return c.n.indexOf('电影') > -1 || c.n.indexOf('影院') > -1; },
+'ent': function(c) { return c.n.indexOf('综艺') > -1 || c.n.indexOf('娱乐') > -1; }
 };
 
 // CCTV 多源
