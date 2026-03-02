@@ -57,14 +57,20 @@ video { width:100%; height:100%; }
 </div>
 <div class="cat-label">港澳台</div>
 <div class="cats">
-<button class="cat" id="btn-hk" onclick="selectCat('hk</button>
-<button')">香港 class="cat" id="btn-tw" onclick="selectCat('tw')">台湾</button>
+<button class="cat" id="btn-hk" onclick="selectCat('hk')">香港</button>
+<button class="cat" id="btn-tw" onclick="selectCat('tw')">台湾</button>
 </div>
-<div class="cat-label">海外</div>
+<div class="cat-label">亚洲</div>
+<div class="cats">
+<button class="cat" id="btn-jp" onclick="selectCat('jp')">日本</button>
+<button class="cat" id="btn-kr" onclick="selectCat('kr')">韩国</button>
+</div>
+<div class="cat-label">欧美</div>
 <div class="cats">
 <button class="cat" id="btn-us" onclick="selectCat('us')">美国</button>
 <button class="cat" id="btn-uk" onclick="selectCat('uk')">英国</button>
-<button class="cat" id="btn-eu" onclick="selectCat('eu')">欧洲</button>
+<button class="cat" id="btn-fr" onclick="selectCat('fr')">法国</button>
+<button class="cat" id="btn-de" onclick="selectCat('de')">德国</button>
 </div>
 <div class="channel-list" id="list"></div>
 </div>
@@ -94,9 +100,14 @@ var filters = {
 'sports': function(c) { return c.n.indexOf('体育') > -1 || c.n.indexOf('足球') > -1 || c.n.indexOf('NBA') > -1; },
 'movie': function(c) { return c.n.indexOf('电影') > -1 || c.n.indexOf('影院') > -1; },
 'ent': function(c) { return c.n.indexOf('综艺') > -1 || c.n.indexOf('娱乐') > -1; },
+'hk': function(c) { return c.n.indexOf('TVB') > -1 || c.n.indexOf('凤凰') > -1 || c.n.indexOf('香港') > -1; },
+'tw': function(c) { return c.n.indexOf('台湾') > -1 || c.n.indexOf('中天') > -1 || c.n.indexOf('TVBS') > -1; },
+'jp': function(c) { return c.n.indexOf('日本') > -1 || c.n.indexOf('NHK') > -1 || c.n.indexOf('TBS') > -1 || c.n.indexOf('Fuji') > -1 || c.n.indexOf('NTV') > -1 || c.n.indexOf('TV Asahi') > -1 || c.n.indexOf('Japan') > -1; },
+'kr': function(c) { return c.n.indexOf('韩国') > -1 || c.n.indexOf('KBS') > -1 || c.n.indexOf('MBC') > -1 || c.n.indexOf('SBS') > -1 || c.n.indexOf('KBS') > -1 || c.n.indexOf('Korea') > -1; },
 'us': function(c) { return c.n.indexOf('US') > -1 || c.n.indexOf('USA') > -1 || c.n.indexOf('America') > -1 || c.n.indexOf('CNN') > -1 || c.n.indexOf('Fox') > -1 || c.n.indexOf('NBC') > -1 || c.n.indexOf('CBS') > -1 || c.n.indexOf('ABC') > -1; },
 'uk': function(c) { return c.n.indexOf('UK') > -1 || c.n.indexOf('Britain') > -1 || c.n.indexOf('BBC') > -1 || c.n.indexOf('England') > -1; },
-'eu': function(c) { return c.n.indexOf('Germany') > -1 || c.n.indexOf('France') > -1 || c.n.indexOf('Italy') > -1 || c.n.indexOf('Spain') > -1 || c.n.indexOf('Europe') > -1 || c.n.indexOf('EUR') > -1 || c.n.indexOf('DE') > -1 || c.n.indexOf('FR') > -1 || c.n.indexOf('IT') > -1; }
+'fr': function(c) { return c.n.indexOf('France') > -1 || c.n.indexOf('French') > -1 || c.n.indexOf('FR') > -1; },
+'de': function(c) { return c.n.indexOf('Germany') > -1 || c.n.indexOf('German') > -1 || c.n.indexOf('DE') > -1 || c.n.indexOf('Das') > -1; }
 };
 
 // CCTV 多源
