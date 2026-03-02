@@ -79,15 +79,13 @@ var filters = {
 'tw': function(c) { return c.n.indexOf('台湾') > -1 || c.n.indexOf('中天') > -1; }
 };
 
-// CCTV 多个源
+// CCTV 多源
 var multiSources = {
 'CCTV-1': [
 'https://ldncctvwbcdbd.a.bdydns.com/ldncctvwbcd/cdrmldcctv1_1/index.m3u8?BR=td',
 'http://140.207.241.2:8080/live/program/live/cctv1hd/4000000/mnf.m3u8',
 'http://121.24.98.226:8090/hls/9/index.m3u8',
-'http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226016/index.m3u8',
-'http://39.135.138.58:18890/PLTV/88888888/224/3221225618/index.m3u8',
-'http://ott.mobaibox.com/PLTV/3/224/3221227896/index.m3u8'
+'http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226016/index.m3u8'
 ],
 'CCTV-2': [
 'https://ldocctvwbcdks.v.kcdnvip.com/ldocctvwbcd/cdrmldcctv2_1/index.m3u8?BR=td&region=beijing',
@@ -101,7 +99,7 @@ var multiSources = {
 ]
 };
 
-// 预设频道列表
+// 预设中国频道
 var presetChannels = [
 {n:'CCTV-1 综合',u:'https://ldncctvwbcdbd.a.bdydns.com/ldncctvwbcd/cdrmldcctv1_1/index.m3u8?BR=td'},
 {n:'CCTV-2 财经',u:'https://ldocctvwbcdks.v.kcdnvip.com/ldocctvwbcd/cdrmldcctv2_1/index.m3u8?BR=td&region=beijing'},
@@ -134,7 +132,7 @@ var presetChannels = [
 {n:'辽宁卫视',u:'http://140.207.241.2:8080/live/program/live/lnwshd/4000000/mnf.m3u8'},
 {n:'湖北卫视',u:'http://140.207.241.2:8080/live/program/live/hbwshd/4000000/mnf.m3u8'},
 {n:'江西卫视',u:'http://140.207.241.2:8080/live/program/live/jxwshd/4000000/d1.m3u8'},
-{n:'福建东南卫视',u:'http://140.207.241.2:8080/live/program/live/dnwshd/4000000/mnf.m3u8'},
+{n:'东南卫视',u:'http://140.207.241.2:8080/live/program/live/dnwshd/4000000/mnf.m3u8'},
 {n:'广西卫视',u:'http://140.207.241.2:8080/live/program/live/gxws/1300000/mnf.m3u8'},
 {n:'云南卫视',u:'http://140.207.241.2:8080/live/program/live/ynws/1300000/mnf.m3u8'},
 {n:'贵州卫视',u:'http://140.207.241.2:8080/live/program/live/gzws/1300000/mnf.m3u8'},
@@ -152,10 +150,39 @@ var presetChannels = [
 {n:'兵团卫视',u:'http://140.207.241.2:8080/live/program/live/btws/1300000/mnf.m3u8'}
 ];
 
+// 加载全球源
+function loadGlobal() {
+return new Promise(function(resolve) {
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://iptv-org.github.io/iptv/index.m3u', true);
+xhr.onload = function() {
+if (xhr.status === 200) {
+var lines = xhr.responseText.split('\n');
+var name = '';
+for (var i = 0; i < lines.length; i++) {
+if (lines[i].indexOf('#EXTINF:') === 0) {
+var m = lines[i].match(/tvg-name="([^"]*)"/);
+name = m ? m[1] : (lines[i].indexOf(',') > 0 ? lines[i].split(',')[1] : '');
+} else if (lines[i].indexOf('http') === 0 && name) {
+channels.push({n: name.trim(), u: lines[i]});
+name = '';
+}
+}
+resolve();
+} else { resolve(); }
+};
+xhr.onerror = function() { resolve(); };
+xhr.send();
+});
+}
+
 function init() {
+document.getElementById('stats').innerText = '加载频道...';
+loadGlobal().then(function(){
 channels = presetChannels.concat(channels);
 document.getElementById('stats').innerText = channels.length + ' 频道';
 renderList();
+});
 }
 
 function selectCat(cat) {
@@ -260,7 +287,6 @@ function stopPlay() { if (hls) { hls.destroy(); hls = null; } video.pause(); vid
 function closePlayer() { stopPlay(); document.getElementById('playerTitle').innerText = '选择频道'; }
 function show(t) { var toast = document.getElementById('toast'); toast.innerText = t; toast.classList.add('show'); setTimeout(function() { toast.classList.remove('show'); }, 2500); }
 
-// 启动
 init();
 </script>
 </body>
